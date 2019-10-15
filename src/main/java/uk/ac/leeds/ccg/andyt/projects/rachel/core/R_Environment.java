@@ -16,13 +16,30 @@
 package uk.ac.leeds.ccg.andyt.projects.rachel.core;
 
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.andyt.grids.core.Grids_Environment;
+import uk.ac.leeds.ccg.andyt.projects.rachel.io.R_Files;
 
 /**
  *
  * @author geoagdt
  */
 public class R_Environment extends Generic_Environment {
+
+    public final Generic_Environment env;
+
+    public final Grids_Environment ge;
     
-    public R_Environment(){}
+    public R_Environment() {
+        this(new Grids_Environment());
+    }
+
+    public R_Environment(Grids_Environment ge) {
+        this(new R_Files(), ge);
+    }
     
+    public R_Environment(R_Files files, Grids_Environment ge) {
+        super(files);
+        this.ge = ge;
+        this.env = ge.env;
+    }
 }

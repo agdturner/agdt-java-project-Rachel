@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.andyt.projects.rachel.io;
 
 import java.io.File;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
+import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Strings;
 
 /**
  *
@@ -24,7 +25,30 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
  */
 public class R_Files extends Generic_Files {
     
-    public R_Files(File dir) {
-        super(dir);
+    public R_Files(){
+        super(getDefaultDir());        
+    }
+    
+    /**
+     * @return A default directory called {@link R_Strings#s_Rachel} 
+     * in the Generic_Files.getDefaultDir().
+     */
+    public static File getDefaultDir() {
+        return new File(Generic_Files.getDefaultDir(), R_Strings.s_Rachel);
+    }
+    
+    /**
+     * @param dataDir
+     * @return A directory called {@link R_Strings#String_s_Rachel} 
+     * in {@code dataDir}.
+     */
+    public static File getDir(File dataDir) {
+        File r = new File(dataDir, R_Strings.s_Rachel);
+        r.mkdir();
+        return r;
+    }
+
+    public R_Files(File dataDir) {
+        super(getDir(dataDir));
     }
 }

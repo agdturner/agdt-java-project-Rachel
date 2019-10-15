@@ -25,6 +25,10 @@ public class R_Object implements Serializable {
     
     public R_Environment env;
     
+    public R_Object() {
+        this(new R_Environment());
+    }
+    
     public R_Object(R_Environment e) {
         env = e;
     }

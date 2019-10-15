@@ -49,25 +49,21 @@ import uk.ac.leeds.ccg.andyt.grids.core.grid.Grids_GridBinaryFactory;
 import uk.ac.leeds.ccg.andyt.grids.core.grid.chunk.Grids_GridChunkBinary;
 import uk.ac.leeds.ccg.andyt.grids.core.grid.chunk.Grids_GridChunkBinaryFactory;
 import uk.ac.leeds.ccg.andyt.grids.core.grid.stats.Grids_GridBinaryStats;
-import uk.ac.leeds.ccg.andyt.projects.rachel.io.R_Files;
+import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Object;
 
 /**
  *
  * @author geoagdt
  */
-public class R_Main {
+public class R_Main extends R_Object {
 
-    R_Files files;
-
-    public R_Main(R_Files f) {
-        files = f;
+    public R_Main() {
+        super();
     }
 
     public static void main(String[] args) {
         try {
-            R_Files f = new R_Files(new File(System.getProperty("user.dir"),
-                    "data"));
-            R_Main m = new R_Main(f);
+            R_Main m = new R_Main();
             m.run();
         } catch (Error | Exception e) {
             e.printStackTrace(System.err);
@@ -90,6 +86,26 @@ public class R_Main {
         boolean displayResult;
         displayResult = false;
         //displayResult = true;
+        boolean runTest;
+        //runTest = false;
+        runTest = true;
+        
+        // Parameters
+        int nv0;
+        int nv1;
+        File inF;
+        double v0 = 0d;
+        double v1 = 1d;
+        if (runTest) {
+            nv0 = 2;
+            nv1 = 2;
+            inF = new File(env.files.getInputDir(), "test.asc");
+            //inF = new File(env.files.getInputDir(), "test2.asc");
+        } else {
+            nv0 = 167000;
+            nv1 = 333000;
+            inF = new File(env.files.getInputDir(), "col_def_0_1.asc");
+        }
 
         // Initialise the array for the shapefiles to display.
         ArrayList<File> sfs = new ArrayList<>();
@@ -99,22 +115,20 @@ public class R_Main {
             int nv;
             double v;
             if (i == 0) {
-                nv = 167000;
+                nv = nv0;
                 v = 0d;
             } else {
-                nv = 333000;
+                nv = nv1;
                 v = 1d;
             }
             // Initialise grid
-            //File inF = new File(files.getInputDataDir(), "test.asc");
-            //File inF = new File(files.getInputDataDir(), "test2.asc");
-            File inF = new File(files.getInputDataDir(), "col_def_0_1.asc");
-            Grids_Environment ge = new Grids_Environment(files.getGeneratedDataDir());
+            Grids_Environment ge = new Grids_Environment();
             Grids_GridChunkBinaryFactory cf = new Grids_GridChunkBinaryFactory();
             Grids_Dimensions d = null;
             Grids_GridBinaryFactory f = new Grids_GridBinaryFactory(ge, cf, 1000,
                     1000, d, new Grids_GridBinaryStats(ge), v);
-            File genF = new File(ge.getFiles().getGeneratedGridBinaryDir(), "" + (int) v);
+            File genF = ge.files.createNewFile(ge.files.getGeneratedGridBinaryDir(), "" + (int) v, "grid");
+            //File genF = new File(ge.files.getGeneratedGridBinaryDir(), "" + (int) v);
             genF.mkdirs();
             Grids_GridBinary g = f.create(genF, inF);
             long n = g.getStats().getN();
@@ -201,7 +215,8 @@ public class R_Main {
             int displayWidth = 600;
             int displayHeight = 500;
             try {
-                Geotools_DisplayShapefile.displayShapefiles(sfs, displayWidth, displayHeight, null);
+                Geotools_DisplayShapefile ds = new Geotools_DisplayShapefile();
+                ds.displayShapefiles(sfs, displayWidth, displayHeight, null);
             } catch (Exception ex) {
                 Logger.getLogger(R_Main.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -222,7 +237,7 @@ public class R_Main {
     public File createShapefile(SimpleFeatureType TYPE,
             ArrayList<Grids_2D_ID_long> l, int v, Grids_GridBinary g) throws IOException {
         String sfName = "out" + v + ".shp";
-        File f = new File(files.getOutputDataDir(), sfName);
+        File f = new File(env.files.getOutputDir(), sfName);
         System.out.println("creating " + f);
         List<SimpleFeature> features = new ArrayList<>();
         SimpleFeatureBuilder fb = new SimpleFeatureBuilder(TYPE);
@@ -258,7 +273,7 @@ public class R_Main {
          * TYPE is used as a template to describe the file contents
          */
         ds.createSchema(TYPE);
-        File outSF = getShapefile(files.getOutputDataDir(), sfName);
+        File outSF = getShapefile(env.files.getOutputDir(), sfName);
         //Geotools_Shapefile.transact(outSF, TYPE, features, dSFactory);
         Geotools_Shapefile.transact(ds, TYPE, features);
         return outSF;
