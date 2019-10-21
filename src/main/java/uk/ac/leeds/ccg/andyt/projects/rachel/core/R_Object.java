@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.andyt.projects.rachel.core;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -23,9 +24,9 @@ import java.io.Serializable;
  */
 public class R_Object implements Serializable {
     
-    public R_Environment env;
+    public transient final R_Environment env;
     
-    public R_Object() {
+    public R_Object() throws IOException {
         this(new R_Environment());
     }
     

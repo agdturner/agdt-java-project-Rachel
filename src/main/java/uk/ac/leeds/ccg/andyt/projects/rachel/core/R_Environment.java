@@ -15,6 +15,8 @@
  */
 package uk.ac.leeds.ccg.andyt.projects.rachel.core;
 
+import java.io.IOException;
+import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.grids.core.Grids_Environment;
 import uk.ac.leeds.ccg.andyt.projects.rachel.io.R_Files;
@@ -23,13 +25,15 @@ import uk.ac.leeds.ccg.andyt.projects.rachel.io.R_Files;
  *
  * @author geoagdt
  */
-public class R_Environment extends Generic_Environment {
+public class R_Environment implements Serializable {
 
-    public final Generic_Environment env;
+    public transient final Generic_Environment env;
 
-    public final Grids_Environment ge;
+    public transient final Grids_Environment ge;
     
-    public R_Environment() {
+    public transient final R_Files files;
+    
+    public R_Environment() throws IOException {
         this(new Grids_Environment());
     }
 
@@ -38,8 +42,8 @@ public class R_Environment extends Generic_Environment {
     }
     
     public R_Environment(R_Files files, Grids_Environment ge) {
-        super(files);
         this.ge = ge;
         this.env = ge.env;
+        this.files = files;
     }
 }

@@ -57,7 +57,7 @@ import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Object;
  */
 public class R_Main extends R_Object {
 
-    public R_Main() {
+    public R_Main() throws IOException {
         super();
     }
 
@@ -127,7 +127,7 @@ public class R_Main extends R_Object {
             Grids_Dimensions d = null;
             Grids_GridBinaryFactory f = new Grids_GridBinaryFactory(ge, cf, 1000,
                     1000, d, new Grids_GridBinaryStats(ge), v);
-            File genF = ge.files.createNewFile(ge.files.getGeneratedGridBinaryDir(), "" + (int) v, "grid");
+            File genF = ge.env.io.createNewFile(ge.files.getGeneratedGridBinaryDir(), "" + (int) v, "grid");
             //File genF = new File(ge.files.getGeneratedGridBinaryDir(), "" + (int) v);
             genF.mkdirs();
             Grids_GridBinary g = f.create(genF, inF);
