@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.andyt.projects.rachel.io;
 
 import java.io.File;
+import java.io.IOException;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Defaults;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
 import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Strings;
@@ -26,7 +27,7 @@ import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Strings;
  */
 public class R_Files extends Generic_Files {
     
-    public R_Files(){
+    public R_Files() throws IOException{
         super(Generic_Defaults.getDefaultDir());        
     }
     
@@ -41,7 +42,7 @@ public class R_Files extends Generic_Files {
         return r;
     }
 
-    public R_Files(File dataDir) {
+    public R_Files(File dataDir) throws IOException {
         super(getDir(dataDir));
     }
 }
