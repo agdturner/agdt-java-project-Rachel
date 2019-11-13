@@ -24,6 +24,8 @@ import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
 public class R_Strings extends Generic_Strings {
  
    public static final String s_Rachel = "Rachel";
+   public static final String s_rachel = "rachel";
+   
    public R_Strings(){}
    
 }

@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.andyt.projects.rachel.io;
 
 import java.io.File;
 import java.io.IOException;
+import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Defaults;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
 import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Strings;
@@ -27,22 +28,16 @@ import uk.ac.leeds.ccg.andyt.projects.rachel.core.R_Strings;
  */
 public class R_Files extends Generic_Files {
     
-    public R_Files() throws IOException{
-        super(Generic_Defaults.getDefaultDir());        
+    public R_Files(File dataDir) throws IOException{
+        super(dataDir);        
     }
     
     /**
-     * @param dataDir
-     * @return A directory called {@link R_Strings#String_s_Rachel} 
-     * in {@code dataDir}.
+     * @return {@code new File(getDefaultGenericDir(), Vector_Strings.s_Math)}.
      */
-    public static File getDir(File dataDir) {
-        File r = new File(dataDir, R_Strings.s_Rachel);
-        r.mkdir();
-        return r;
-    }
-
-    public R_Files(File dataDir) throws IOException {
-        super(getDir(dataDir));
+    public static File getDefaultDir() {
+        File d = new File(Generic_Defaults.getDataDir(), R_Strings.s_project);
+        d = new File(d, R_Strings.s_rachel);
+        return d;
     }
 }
