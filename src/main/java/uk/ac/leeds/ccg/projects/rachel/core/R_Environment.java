@@ -36,12 +36,8 @@ public class R_Environment implements Serializable {
     public transient final R_Files files;
     
     public R_Environment(Grids_Environment ge) throws IOException {
-        this(new R_Files(R_Files.getDefaultDir()), ge);
-    }
-    
-    public R_Environment(R_Files files, Grids_Environment ge) {
         this.ge = ge;
         this.env = ge.env;
-        this.files = files;
+        this.files = new R_Files(ge.files.getDir());
     }
 }
