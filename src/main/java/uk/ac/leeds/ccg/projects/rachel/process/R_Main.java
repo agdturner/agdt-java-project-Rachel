@@ -40,6 +40,8 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import uk.ac.leeds.ccg.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.generic.io.Generic_Defaults;
 import uk.ac.leeds.ccg.generic.io.Generic_Path;
 import uk.ac.leeds.ccg.geotools.Geotools_Shapefile;
 import uk.ac.leeds.ccg.geotools.demo.Geotools_CreatePointShapefile;
@@ -66,7 +68,10 @@ public class R_Main extends R_Object {
 
     public static void main(String[] args) {
         try {
-            R_Environment e = new R_Environment(new Grids_Environment());
+            Path d = Paths.get(System.getProperty("user.home"), "data", 
+                    "project", "Rachel");
+            R_Environment e = new R_Environment(new Grids_Environment(
+                new Generic_Environment(new Generic_Defaults(d))));
             R_Main m = new R_Main(e);
             m.run();
         } catch (Error | Exception e) {
@@ -232,7 +237,7 @@ public class R_Main extends R_Object {
     /**
      * Creates the point shapefile.
      *
-     * @param TYPE The SimpleFeatureType for the points that will be created.
+     * @param sft The SimpleFeatureType for the points that will be created.
      * @param l List of locations to turn into points.
      * @param v Effectively this is a label for naming the shapefile.
      * @param g A grid for helping to convert the locations in l into
@@ -240,13 +245,13 @@ public class R_Main extends R_Object {
      * @return Path for storing the shapefile.
      * @throws IOException
      */
-    public Path createShapefile(SimpleFeatureType TYPE,
+    public Path createShapefile(SimpleFeatureType sft,
             ArrayList<Grids_2D_ID_long> l, int v, Grids_GridBinary g) throws IOException {
         String sfName = "out" + v + ".shp";
         Path f = Paths.get(env.files.getOutputDir().toString(), sfName);
         System.out.println("creating " + f);
         List<SimpleFeature> features = new ArrayList<>();
-        SimpleFeatureBuilder fb = new SimpleFeatureBuilder(TYPE);
+        SimpleFeatureBuilder fb = new SimpleFeatureBuilder(sft);
         GeometryFactory gF = JTSFactoryFinder.getGeometryFactory();
         Iterator<Grids_2D_ID_long> ite = l.iterator();
         while (ite.hasNext()) {
@@ -278,10 +283,10 @@ public class R_Main extends R_Object {
         /*
          * TYPE is used as a template to describe the file contents
          */
-        ds.createSchema(TYPE);
+        ds.createSchema(sft);
         Path outSF = getShapefile(env.files.getOutputDir(), sfName);
         //Geotools_Shapefile.transact(outSF, TYPE, features, dSFactory);
-        Geotools_Shapefile.transact(ds, TYPE, features);
+        Geotools_Shapefile.transact(ds, sft, features);
         return outSF;
     }
 

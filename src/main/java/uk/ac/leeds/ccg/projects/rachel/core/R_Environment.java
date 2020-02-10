@@ -29,6 +29,8 @@ import uk.ac.leeds.ccg.projects.rachel.io.R_Files;
  */
 public class R_Environment implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public transient final Generic_Environment env;
 
     public transient final Grids_Environment ge;
@@ -38,6 +40,6 @@ public class R_Environment implements Serializable {
     public R_Environment(Grids_Environment ge) throws IOException {
         this.ge = ge;
         this.env = ge.env;
-        this.files = new R_Files(ge.files.getDir());
+        this.files = new R_Files(ge.files.getDir().getParent());
     }
 }
