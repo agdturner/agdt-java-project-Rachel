@@ -9,7 +9,8 @@
 
     <name>agdt-java-project-Rachel</name>
     <url>https://github.com/agdturner/agdt-java-project-Rachel</url>
-    <description>Java for pseudo-randomly selecting user specified number of locations within classed values in a grid.</description>
+    <description>Java for pseudo-randomly selecting user specified number of 
+        locations within classed values in a grid.</description>
     <scm>
         <url>git@github.com:agdturner/agdt-java-project-Rachel.git</url>
         <connection>scm:git:git@github.com:agdturner/agdt-java-project-Rachel.git</connection>
@@ -17,9 +18,8 @@
     </scm>
     <licenses>
         <license>
-            <name>Apache License 2.0</name>
-            <url>https://github.com/agdturner/agdt-java-project-Rachel/LICENSE.txt</url>
-            <distribution>repo</distribution>
+            <name>APACHE LICENSE, VERSION 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
     <organization>
